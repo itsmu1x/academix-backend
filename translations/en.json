@@ -1,0 +1,10 @@
+{
+	"user_created": "User created successfully",
+	"invalid_credentials": "Invalid credentials",
+	"email_in_use": "This email is already in use",
+	"logged_in": "Logged in successfully",
+	"logged_out": "Logged out successfully",
+	"unauthorized": "Unauthorized",
+	"invalid_request_body": "Invalid request body",
+	"already_logged_in": "Already logged in"
+}
