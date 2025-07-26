@@ -17,6 +17,16 @@ class Settings(BaseSettings):
         "perm3": make_permission(2)
     }
 
+    ORIGIN: str = "http://localhost:8000"
+    FRONTEND_ORIGIN: str = "http://localhost:5173"
+    
+    GITHUB_CLIENT_ID: str
+    GITHUB_CLIENT_SECRET: str
+    GOOGLE_CLIENT_ID: str
+    GOOGLE_CLIENT_SECRET: str
+    LINKEDIN_CLIENT_ID: str
+    LINKEDIN_CLIENT_SECRET: str
+
     class Config:
         env_file = ".env"
 

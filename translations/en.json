@@ -6,5 +6,6 @@
 	"logged_out": "Logged out successfully",
 	"unauthorized": "Unauthorized",
 	"invalid_request_body": "Invalid request body",
-	"already_logged_in": "Already logged in"
+	"already_logged_in": "Already logged in",
+	"sww": "Something went wrong, please try again later."
 }
