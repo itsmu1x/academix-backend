@@ -24,3 +24,7 @@ class CategoryOut(BaseModel):
                 for t in category.translations
             }
         )
+
+class CategoryIn(BaseModel):
+    slug: str
+    translations: Dict[str, CategoryTranslationOut]
