@@ -1,0 +1,40 @@
+{
+	"name": "academix-backend",
+	"version": "1.0.0",
+	"description": "Express.js backend with TypeScript for Academix",
+	"main": "dist/index.js",
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"build": "tsc",
+		"start": "node dist/index.js",
+		"db:push": "drizzle-kit push",
+		"vercel-build": "npm run build"
+	},
+	"keywords": [
+		"express",
+		"typescript",
+		"vercel",
+		"api"
+	],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@neondatabase/serverless": "^1.0.1",
+		"cors": "^2.8.5",
+		"dotenv": "^16.3.1",
+		"drizzle-orm": "^0.44.5",
+		"express": "^4.18.2",
+		"helmet": "^7.1.0"
+	},
+	"devDependencies": {
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/node": "^20.10.5",
+		"drizzle-kit": "^0.31.4",
+		"tsx": "^4.6.2",
+		"typescript": "^5.3.3"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}
