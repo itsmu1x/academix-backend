@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express"
-import { Request } from "@/types/api"
+import { Request } from "../types/api"
 
 export default function parseLanguage(
 	req: Request,
