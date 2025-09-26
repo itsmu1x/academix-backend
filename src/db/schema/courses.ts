@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import {
 	integer,
 	pgTable,
@@ -31,3 +32,17 @@ export const categoriesTranslationsTable = pgTable("categories_translations", {
 		.defaultNow()
 		.$onUpdate(() => new Date()),
 })
+
+export const categoriesTranslationsRelations = relations(
+	categoriesTranslationsTable,
+	({ one }) => ({
+		category: one(categoriesTable, {
+			fields: [categoriesTranslationsTable.categoryId],
+			references: [categoriesTable.id],
+		}),
+	})
+)
+
+export const categoryRelations = relations(categoriesTable, ({ many }) => ({
+	translations: many(categoriesTranslationsTable),
+}))

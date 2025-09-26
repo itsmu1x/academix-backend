@@ -8,7 +8,12 @@ import {
 import db from "src/db"
 
 export const getCategories = async (_req: Request, res: Response) => {
-	const categories = await db.query.categoriesTable.findMany()
+	const categories = await db.query.categoriesTable.findMany({
+		with: {
+			translations: true,
+		},
+	})
+
 	res.json(categories)
 }
 
