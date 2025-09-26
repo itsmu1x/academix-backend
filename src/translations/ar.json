@@ -1,0 +1,13 @@
+{
+	"sww": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقاً.",
+	"validation_error": "نص الطلب غير صالح",
+	"route_not_found": "الرابط غير موجود",
+	"auth": {
+		"email_in_use": "هذا البريد الإلكتروني مستخدم بالفعل",
+		"registered_successfully": "تم تسجيلك بنجاح",
+		"logged_in_successfully": "تم تسجيلك بنجاح",
+		"invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صالحة",
+		"logged_out_successfully": "تم تسجيل خروجك بنجاح",
+		"unauthorized": "غير مصرح لك"
+	}
+}

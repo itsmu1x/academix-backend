@@ -1,15 +1,10 @@
-import { Request, Response, NextFunction } from "express"
+import type { Request, Response, NextFunction } from "express"
+import { AppError } from "./error-handler"
 
 export const notFound = (
-	req: Request,
-	res: Response,
+	_req: Request,
+	_res: Response,
 	next: NextFunction
 ): void => {
-	const error = new Error(`Not Found - ${req.originalUrl}`)
-	res.status(404).json({
-		error: {
-			message: `Route ${req.originalUrl} not found`,
-			status: 404,
-		},
-	})
+	next(new AppError("route_not_found", 404))
 }

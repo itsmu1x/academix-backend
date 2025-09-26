@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import {
 	boolean,
 	integer,
@@ -54,3 +55,29 @@ export const sessionsTable = pgTable("sessions", {
 		.$onUpdate(() => new Date()),
 	expiresAt: timestamp("expires_at").notNull(),
 })
+
+export const userRelations = relations(usersTable, ({ one }) => ({
+	role: one(rolesTable, {
+		fields: [usersTable.roleId],
+		references: [rolesTable.id],
+	}),
+	sessions: one(sessionsTable, {
+		fields: [usersTable.id],
+		references: [sessionsTable.userId],
+	}),
+}))
+
+export const roleRelations = relations(rolesTable, ({ many }) => ({
+	users: many(usersTable),
+}))
+
+export const sessionRelations = relations(sessionsTable, ({ one }) => ({
+	user: one(usersTable, {
+		fields: [sessionsTable.userId],
+		references: [usersTable.id],
+	}),
+}))
+
+export type Session = typeof sessionsTable.$inferSelect
+export type User = typeof usersTable.$inferSelect
+export type Role = typeof rolesTable.$inferSelect

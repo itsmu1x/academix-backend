@@ -1,12 +1,17 @@
-import { Response, NextFunction } from "express"
-import { Request } from "../types/api"
+import type { Request, Response, NextFunction } from "express"
+import {
+	DEFAULT_LANGUAGE,
+	languageSchema,
+	translate,
+} from "src/utils/translation"
 
 export default function parseLanguage(
 	req: Request,
-	res: Response,
+	_res: Response,
 	next: NextFunction
 ) {
 	const language = req.headers["x-language"]
-	req.language = language && typeof language === "string" ? language : "en"
+	req.language = languageSchema.safeParse(language).data ?? DEFAULT_LANGUAGE
+	req.t = (key: string) => translate(key, req.language)
 	next()
 }

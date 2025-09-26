@@ -1,0 +1,13 @@
+{
+	"sww": "Something went wrong, please try again later.",
+	"validation_error": "Invalid request body",
+	"route_not_found": "Route not found",
+	"auth": {
+		"email_in_use": "This email is already in use",
+		"registered_successfully": "You have been registered successfully",
+		"logged_in_successfully": "You have been logged in successfully",
+		"invalid_credentials": "Invalid credentials",
+		"logged_out_successfully": "You have been logged out successfully",
+		"unauthorized": "Unauthorized"
+	}
+}
