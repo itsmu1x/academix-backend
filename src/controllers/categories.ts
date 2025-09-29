@@ -14,7 +14,14 @@ export const getCategories = async (_req: Request, res: Response) => {
 		},
 	})
 
-	res.json(categories)
+	res.json(
+		categories.map((category) => ({
+			...category,
+			translations: Object.fromEntries(
+				category.translations.map((t) => [t.locale, t])
+			),
+		}))
+	)
 }
 
 export const createCategory = async (
