@@ -1,11 +1,21 @@
 import { relations } from "drizzle-orm"
 import {
+	boolean,
 	integer,
+	pgEnum,
 	pgTable,
 	serial,
+	text,
 	timestamp,
+	uuid,
 	varchar,
 } from "drizzle-orm/pg-core"
+
+export const contentTypes = pgEnum("content_types", ["video", "quiz"])
+export const questionTypes = pgEnum("question_types", [
+	"multiple_choice",
+	"true_false",
+])
 
 export const categoriesTable = pgTable("categories", {
 	id: serial().primaryKey(),
@@ -32,6 +42,102 @@ export const categoriesTranslationsTable = pgTable("categories_translations", {
 		.defaultNow()
 		.$onUpdate(() => new Date()),
 })
+
+export const courseTable = pgTable("courses", {
+	id: serial().primaryKey(),
+	title: varchar({ length: 32 }).notNull(),
+	description: text().notNull(),
+	slug: varchar({ length: 128 }).notNull().unique(),
+	categoryId: integer()
+		.references(() => categoriesTable.id, {
+			onDelete: "cascade",
+		})
+		.notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at")
+		.notNull()
+		.defaultNow()
+		.$onUpdate(() => new Date()),
+})
+
+export const sectionsTable = pgTable("courses_sections", {
+	id: serial().primaryKey(),
+	courseId: integer()
+		.references(() => courseTable.id, {
+			onDelete: "cascade",
+		})
+		.notNull(),
+	title: varchar({ length: 32 }).notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at")
+		.notNull()
+		.defaultNow()
+		.$onUpdate(() => new Date()),
+})
+
+export const contentsTable = pgTable("courses_contents", {
+	id: serial().primaryKey(),
+	sectionId: integer()
+		.references(() => sectionsTable.id, {
+			onDelete: "cascade",
+		})
+		.notNull(),
+	title: varchar({ length: 32 }).notNull(),
+	type: contentTypes().notNull().default("video"),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at")
+		.notNull()
+		.defaultNow()
+		.$onUpdate(() => new Date()),
+})
+
+export const videosTable = pgTable("courses_videos", {
+	contentId: integer()
+		.references(() => contentsTable.id, {
+			onDelete: "cascade",
+		})
+		.notNull()
+		.primaryKey(),
+	url: text().notNull(),
+	duration: integer().notNull(),
+})
+
+export const quizzesTable = pgTable("courses_quizzes", {
+	contentId: integer()
+		.references(() => contentsTable.id, {
+			onDelete: "cascade",
+		})
+		.notNull()
+		.primaryKey(),
+	passingScore: integer("passing_score").notNull(),
+})
+
+export const quizQuestionsTable = pgTable("courses_quiz_questions", {
+	id: serial().primaryKey(),
+	quizId: integer()
+		.references(() => quizzesTable.contentId, {
+			onDelete: "cascade",
+		})
+		.notNull(),
+	text: text().notNull(),
+	type: questionTypes().notNull(),
+	position: integer().notNull(),
+})
+
+export const quizQuestionOptionsTable = pgTable(
+	"courses_quiz_question_options",
+	{
+		id: serial().primaryKey(),
+		questionId: integer()
+			.references(() => quizQuestionsTable.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		text: text().notNull(),
+		isCorrect: boolean("is_correct").notNull(),
+		position: integer().notNull(),
+	}
+)
 
 export const categoriesTranslationsRelations = relations(
 	categoriesTranslationsTable,
