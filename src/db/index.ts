@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { drizzle } from "drizzle-orm/neon-serverless"
+import { drizzle } from "drizzle-orm/postgres-js"
 import * as auth from "./schema/auth"
 import * as courses from "./schema/courses"
 
