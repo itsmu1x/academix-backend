@@ -1,0 +1,161 @@
+body {
+	/* background: #0a1628; */
+	background: #020617;
+	min-height: 100vh;
+	margin: 0;
+	font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #e0f2fe;
+}
+.container {
+	min-height: 70vh; /* fallback */
+	min-height: 70dvh;
+	border-radius: 18px;
+	padding: 2.5rem 2rem;
+	max-width: 700px;
+	width: 90vw;
+	text-align: left;
+	animation: popin 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+@keyframes popin {
+	0% {
+		transform: scale(0.8);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+h1,
+h2,
+h3,
+h4 {
+	color: cyan;
+}
+pre {
+	background: #0a1628;
+	color: #e0f2fe;
+	border-radius: 8px;
+	padding: 1em;
+	overflow-x: auto;
+	white-space: pre;
+	tab-size: 4;
+}
+code {
+	color: #7dd3fc;
+	border-radius: 4px;
+	width: 100%;
+	padding: 2px 6px;
+}
+
+code:not(pre code) {
+	background: #0a1628;
+	color: #e0f2fe;
+	border-radius: 4px;
+	padding: 2px 6px;
+}
+
+a {
+	color: #22d3ee;
+}
+
+/* Table Styles */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5rem 0;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+th {
+	background: #0a1628;
+	color: cyan;
+	font-weight: 600;
+	padding: 1rem;
+	text-align: left;
+	border-bottom: 2px solid #1e293b;
+	font-size: 0.875rem;
+	letter-spacing: 0.025em;
+	text-transform: uppercase;
+}
+
+td {
+	padding: 1rem;
+	border-bottom: 1px solid #1e293b;
+	color: #e0f2fe;
+	vertical-align: top;
+}
+
+tr:hover {
+	background: rgba(56, 189, 248, 0.05);
+}
+
+tr:last-child td {
+	border-bottom: none;
+}
+
+/* Table cell content styling */
+td code {
+	background: #1e293b;
+	color: cyan;
+	padding: 0.25rem 0.5rem;
+	border-radius: 4px;
+	font-size: 0.875rem;
+}
+
+td a {
+	color: cyan;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+a:hover {
+	color: rgb(11, 196, 196);
+	text-decoration: underline;
+}
+
+/* Authentication status styling */
+td:has-text("no") {
+	color: #10b981;
+	font-weight: 500;
+}
+
+td:has-text("needed") {
+	color: #f59e0b;
+	font-weight: 500;
+}
+
+td:has-text("admin") {
+	color: #ef4444;
+	font-weight: 600;
+}
+
+/* Method badges */
+td code:first-child {
+	background: #1e293b;
+	color: cyan;
+	font-weight: 600;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+	table {
+		font-size: 0.875rem;
+	}
+
+	th,
+	td {
+		padding: 0.75rem 0.5rem;
+	}
+
+	th:last-child,
+	td:last-child {
+		display: none;
+	}
+}

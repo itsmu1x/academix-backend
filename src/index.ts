@@ -8,6 +8,7 @@ import apiRoutes from "./routes"
 import parseLanguage from "./middleware/parse-language"
 import { attachSession } from "./middleware/auth"
 import cookieParser from "cookie-parser"
+import path from "path"
 
 dotenv.config()
 const app = express()
@@ -23,6 +24,7 @@ app.use(
 				: "http://localhost:5173",
 	})
 )
+app.use(express.static(path.join(__dirname, "static")))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(express.json({ limit: "1mb" }))
 app.use(express.urlencoded({ extended: true }))
