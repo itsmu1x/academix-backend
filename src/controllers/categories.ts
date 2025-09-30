@@ -1,11 +1,15 @@
 import type { Request, Response } from "express"
-import type { CreateCategorySchema } from "src/schemas/categories"
-import type { TypedRequest } from "src/types/express"
+import type {
+	CreateCategorySchema,
+	DeleteCategorySchema,
+} from "src/schemas/categories"
+import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
 import {
 	categoriesTable,
 	categoriesTranslationsTable,
 } from "src/db/schema/courses"
 import db from "src/db"
+import { eq } from "drizzle-orm"
 
 export const getCategories = async (_req: Request, res: Response) => {
 	const categories = await db.query.categoriesTable.findMany({
@@ -45,4 +49,14 @@ export const createCategory = async (
 
 		return res.json(category)
 	})
+}
+
+export const deleteCategory = async (
+	req: TypedRequestWithParams<DeleteCategorySchema>,
+	res: Response
+) => {
+	await db
+		.delete(categoriesTable)
+		.where(eq(categoriesTable.id, req.params.id))
+	res.json({ message: req.t("categories.deleted_successfully") })
 }

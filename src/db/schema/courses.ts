@@ -43,7 +43,7 @@ export const categoriesTranslationsTable = pgTable("categories_translations", {
 		.$onUpdate(() => new Date()),
 })
 
-export const courseTable = pgTable("courses", {
+export const coursesTable = pgTable("courses", {
 	id: serial().primaryKey(),
 	title: varchar({ length: 32 }).notNull(),
 	description: text().notNull(),
@@ -63,7 +63,7 @@ export const courseTable = pgTable("courses", {
 export const sectionsTable = pgTable("courses_sections", {
 	id: serial().primaryKey(),
 	courseId: integer()
-		.references(() => courseTable.id, {
+		.references(() => coursesTable.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),

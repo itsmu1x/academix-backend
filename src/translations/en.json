@@ -9,5 +9,11 @@
 		"invalid_credentials": "Invalid credentials",
 		"logged_out_successfully": "You have been logged out successfully",
 		"unauthorized": "Unauthorized"
+	},
+	"courses": {
+		"creation_failed": "Failed to create course"
+	},
+	"sections": {
+		"creation_failed": "Failed to create section"
 	}
 }

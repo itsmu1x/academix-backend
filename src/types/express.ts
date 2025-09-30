@@ -2,3 +2,5 @@
 import type { Request } from "express"
 
 export type TypedRequest<T> = Request<{}, {}, T>
+export type TypedRequestWithParams<T> = Request<T, {}, {}>
+export type ValidationType = "body" | "params"
