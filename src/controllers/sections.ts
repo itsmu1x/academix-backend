@@ -4,6 +4,7 @@ import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
 import { sectionsTable } from "src/db/schema/courses"
 import { AppError } from "src/middleware/error-handler"
 import db from "src/db"
+import { eq } from "drizzle-orm"
 
 export const getSections = async (_req: Request, res: Response) => {
 	const sections = await db.query.sectionsTable.findMany()
@@ -33,4 +34,18 @@ export const getCourseSections = async (
 	})
 
 	res.json(sections)
+}
+
+export const updateSection = async (
+	req: TypedRequestWithParams<{ id: number }>,
+	res: Response
+) => {
+	const [section] = await db
+		.update(sectionsTable)
+		.set(req.body)
+		.where(eq(sectionsTable.id, req.params.id))
+		.returning()
+
+	if (!section) throw new AppError("sections.update_failed", 500)
+	res.json(section)
 }

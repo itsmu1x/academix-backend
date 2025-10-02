@@ -14,6 +14,7 @@
 		"creation_failed": "Failed to create course"
 	},
 	"sections": {
-		"creation_failed": "Failed to create section"
+		"creation_failed": "Failed to create section",
+		"update_failed": "Failed to update section"
 	}
 }

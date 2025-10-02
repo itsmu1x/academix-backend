@@ -14,6 +14,7 @@
 		"creation_failed": "فشل إنشاء الدورة"
 	},
 	"sections": {
-		"creation_failed": "فشل إنشاء القسم"
+		"creation_failed": "فشل إنشاء القسم",
+		"update_failed": "فشل تحديث القسم"
 	}
 }

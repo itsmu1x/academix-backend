@@ -109,10 +109,60 @@ console.log(response.data)
 
 ---
 
+## ✏️ Update Section
+
+**`PUT /sections/:id`**  
+🔒 **Requires Admin Authentication**
+
+Updates an existing section.
+
+### Request
+
+**Parameters:**
+- `id` (number) - Section ID
+
+**Body:**
+```json
+{
+	"title": "Advanced State Management with Hooks"
+}
+```
+
+**Schema:**
+```typescript
+{
+	title: string
+}
+```
+
+### Response
+
+```json
+{
+	"id": 1,
+	"courseId": 1,
+	"title": "Advanced State Management with Hooks",
+	"createdAt": "2024-01-15T10:30:00.000Z",
+	"updatedAt": "2024-01-15T12:45:00.000Z"
+}
+```
+
+### Example
+
+```javascript
+const response = await axios.put("/sections/1", {
+	title: "Advanced State Management with Hooks"
+})
+
+console.log(response.data)
+```
+
+---
+
 ## 📝 Notes
 
--   **Authentication**: Creating sections requires admin role
+-   **Authentication**: Creating and updating sections requires admin role
 -   **Title**: Maximum 32 characters
--   **Course ID**: Provided in the URL path parameter
+-   **Course ID**: Provided in the URL path parameter for creation
 -   **Cascade Delete**: Deleting a course will also delete all associated sections
 -   **Content Organization**: Sections are typically used to organize course content into chapters or modules
