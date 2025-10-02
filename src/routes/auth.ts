@@ -4,6 +4,8 @@ import {
 	githubCallback,
 	google,
 	googleCallback,
+	linkedin,
+	linkedinCallback,
 	login,
 	logout,
 	me,
@@ -13,6 +15,7 @@ import { Router } from "express"
 import {
 	githubCallbackSchema,
 	googleCallbackSchema,
+	linkedinCallbackSchema,
 	loginSchema,
 	registerSchema,
 } from "src/schemas/auth"
@@ -37,6 +40,13 @@ router.get(
 	"/google/callback",
 	validate(googleCallbackSchema, "query"),
 	googleCallback
+)
+
+router.get("/linkedin", linkedin)
+router.get(
+	"/linkedin/callback",
+	validate(linkedinCallbackSchema, "query"),
+	linkedinCallback
 )
 
 export default router

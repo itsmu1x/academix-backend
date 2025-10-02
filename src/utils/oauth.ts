@@ -1,4 +1,10 @@
-import { generateCodeVerifier, generateState, GitHub, Google } from "arctic"
+import {
+	generateCodeVerifier,
+	generateState,
+	GitHub,
+	Google,
+	LinkedIn,
+} from "arctic"
 import axios from "axios"
 import { RedirectError } from "src/middleware/error-handler"
 import z from "zod"
@@ -7,6 +13,7 @@ import db from "src/db"
 import { sessionsTable, usersTable } from "src/db/schema/auth"
 import { eq } from "drizzle-orm"
 import { generateSessionId, sha256 } from "./sessions"
+import { decodeJwt } from "jose"
 
 export const profileSchema = z.object({
 	provider: z.enum(["github", "google", "linkedin"]),
@@ -29,6 +36,23 @@ export const gh = new GitHub(
 	`${process.env.ORIGIN}/auth/github/callback`
 )
 
+export const linkedin = new LinkedIn(
+	process.env.LINKEDIN_CLIENT_ID!,
+	process.env.LINKEDIN_CLIENT_SECRET!,
+	`${process.env.ORIGIN}/auth/linkedin/callback`
+)
+
+export const linkedinAuthorizationUrl = () => {
+	const state = generateState()
+	const url = linkedin.createAuthorizationURL(state, [
+		"openid",
+		"email",
+		"profile",
+	])
+
+	return [url.toString(), state]
+}
+
 export function googleAuthorizationUrl(): [string, string, string] {
 	const state = generateState()
 	const codeVerifier = generateCodeVerifier()
@@ -39,6 +63,24 @@ export function googleAuthorizationUrl(): [string, string, string] {
 	])
 
 	return [url.toString(), state, codeVerifier]
+}
+
+export async function linkedinUserize(
+	code: string
+): Promise<OAuthProfile | null> {
+	try {
+		const response = await linkedin.validateAuthorizationCode(code)
+		const decoded = decodeJwt(response.idToken())
+
+		return profileSchema.parse({
+			...decoded,
+			id: decoded.sub,
+			name: decoded.given_name || decoded.name,
+			provider: "linkedin",
+		})
+	} catch {
+		return null
+	}
 }
 
 export function githubAuthorizationUrl(): [string, string] {

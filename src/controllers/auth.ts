@@ -1,6 +1,7 @@
 import type {
 	GithubCallbackSchema,
 	GoogleCallbackSchema,
+	LinkedinCallbackSchema,
 	RegisterSchema,
 } from "src/schemas/auth"
 import type { TypedRequest, TypedRequestWithQuery } from "src/types/express"
@@ -12,6 +13,7 @@ import {
 	GITHUB_STATE_COOKIE_NAME,
 	GOOGLE_CODE_VERIFIER_COOKIE_NAME,
 	GOOGLE_STATE_COOKIE_NAME,
+	LINKEDIN_STATE_COOKIE_NAME,
 	SALT_ROUNDS,
 	SESSION_COOKIE_NAME,
 } from "src/utils/constants"
@@ -24,9 +26,40 @@ import {
 	githubUserize,
 	googleAuthorizationUrl,
 	googleUserize,
+	linkedinAuthorizationUrl,
+	linkedinUserize,
 } from "src/utils/oauth"
 
-export const userize = async () => {}
+export const linkedin = async (_req: Request, res: Response) => {
+	const [url, state] = linkedinAuthorizationUrl()
+
+	return res
+		.cookie(
+			LINKEDIN_STATE_COOKIE_NAME,
+			state,
+			cookieOptions({ maxAge: 60000 })
+		)
+		.redirect(url.toString())
+}
+
+export const linkedinCallback = async (
+	req: TypedRequestWithQuery<LinkedinCallbackSchema>,
+	res: Response
+) => {
+	const state = req.signedCookies[LINKEDIN_STATE_COOKIE_NAME]
+	if (state !== req._query.state)
+		throw new RedirectError("auth.invalid_state")
+
+	const profile = await linkedinUserize(req._query.code)
+	if (!profile) throw new RedirectError("auth.general_error")
+
+	const sessionId = await authenticate(req, profile)
+	const response = res.clearCookie(LINKEDIN_STATE_COOKIE_NAME)
+
+	if (sessionId)
+		response.cookie(SESSION_COOKIE_NAME, sessionId, cookieOptions())
+	return response.redirect(process.env.FRONTEND_URL!)
+}
 
 export const google = async (_req: Request, res: Response) => {
 	const [url, state, codeVerifier] = googleAuthorizationUrl()
