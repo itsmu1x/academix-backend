@@ -1,4 +1,8 @@
-import { getSections, updateSection } from "src/controllers/sections"
+import {
+	deleteSection,
+	getSections,
+	updateSection,
+} from "src/controllers/sections"
 import { Router } from "express"
 import validate from "src/middleware/validation"
 import {
@@ -9,6 +13,11 @@ import {
 const router = Router()
 
 router.get("/", getSections)
+router.delete(
+	"/:id",
+	validate(updateSectionParamsSchema, "params"),
+	deleteSection
+)
 router.put(
 	"/:id",
 	validate(updateSectionParamsSchema, "params"),

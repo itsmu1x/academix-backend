@@ -23,6 +23,7 @@
 | `GET`              | `/courses/:courseId/sections` | Get course sections | no             | [View Docs](/docs/sections)   |
 | `POST`             | `/courses/:courseId/sections` | Create new section    | admin     | [View Docs](/docs/sections)   |
 | `PUT`              | `/sections/:id`   | Update section        | admin     | [View Docs](/docs/sections)   |
+| `DELETE`           | `/sections/:id`   | Delete section        | admin     | [View Docs](/docs/sections)   |
 
 ## Authentication
 

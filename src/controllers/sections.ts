@@ -49,3 +49,11 @@ export const updateSection = async (
 	if (!section) throw new AppError("sections.update_failed", 500)
 	res.json(section)
 }
+
+export const deleteSection = async (
+	req: TypedRequestWithParams<{ id: number }>,
+	res: Response
+) => {
+	await db.delete(sectionsTable).where(eq(sectionsTable.id, req.params.id))
+	res.json({ message: req.t("sections.deleted_successfully") })
+}

@@ -159,6 +159,35 @@ console.log(response.data)
 
 ---
 
+## 🗑️ Delete Section
+
+**`DELETE /sections/:id`**  
+🔒 **Requires Admin Authentication**
+
+Deletes a section by its ID.
+
+### Request
+
+**Parameters:**
+- `id` (number) - Section ID
+
+### Response
+
+```json
+{
+	"message": "Section deleted successfully"
+}
+```
+
+### Example
+
+```javascript
+const response = await axios.delete("/sections/1")
+console.log(response.data)
+```
+
+---
+
 ## 📝 Notes
 
 -   **Authentication**: Creating and updating sections requires admin role
