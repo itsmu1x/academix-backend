@@ -1,4 +1,4 @@
-import { generateState, GitHub } from "arctic"
+import { generateCodeVerifier, generateState, GitHub, Google } from "arctic"
 import axios from "axios"
 import { RedirectError } from "src/middleware/error-handler"
 import z from "zod"
@@ -17,17 +17,62 @@ export const profileSchema = z.object({
 
 export type OAuthProfile = z.infer<typeof profileSchema>
 
+export const google = new Google(
+	process.env.GOOGLE_CLIENT_ID!,
+	process.env.GOOGLE_CLIENT_SECRET!,
+	`${process.env.ORIGIN}/auth/google/callback`
+)
+
 export const gh = new GitHub(
 	process.env.GITHUB_CLIENT_ID!,
 	process.env.GITHUB_CLIENT_SECRET!,
 	`${process.env.ORIGIN}/auth/github/callback`
 )
 
+export function googleAuthorizationUrl(): [string, string, string] {
+	const state = generateState()
+	const codeVerifier = generateCodeVerifier()
+	const url = google.createAuthorizationURL(state, codeVerifier, [
+		"openid",
+		"email",
+		"profile",
+	])
+
+	return [url.toString(), state, codeVerifier]
+}
+
 export function githubAuthorizationUrl(): [string, string] {
 	const state = generateState()
 	const url = gh.createAuthorizationURL(state, ["read:user", "user:email"])
 
 	return [url.toString(), state]
+}
+
+export async function googleUserize(
+	code: string,
+	codeVerifier: string
+): Promise<OAuthProfile | null> {
+	try {
+		const response = await google.validateAuthorizationCode(
+			code,
+			codeVerifier
+		)
+		const { data } = await axios.get(
+			"https://www.googleapis.com/oauth2/v1/userinfo",
+			{
+				headers: {
+					Authorization: `Bearer ${response.accessToken()}`,
+				},
+			}
+		)
+
+		return profileSchema.parse({
+			...data,
+			provider: "google",
+		})
+	} catch {
+		return null
+	}
 }
 
 export async function githubUserize(

@@ -38,7 +38,13 @@ export const githubCallbackSchema = z.object({
 	state: z.string(),
 })
 
+export const googleCallbackSchema = z.object({
+	code: z.string().min(1),
+	state: z.string(),
+})
+
 export type LoginSchema = z.infer<typeof loginSchema>
 export type RegisterSchema = z.infer<typeof registerSchema>
 export type SessionOutputSchema = z.infer<typeof sessionOutputSchema>
 export type GithubCallbackSchema = z.infer<typeof githubCallbackSchema>
+export type GoogleCallbackSchema = z.infer<typeof googleCallbackSchema>

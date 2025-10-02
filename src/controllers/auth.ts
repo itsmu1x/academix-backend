@@ -1,4 +1,8 @@
-import type { GithubCallbackSchema, RegisterSchema } from "src/schemas/auth"
+import type {
+	GithubCallbackSchema,
+	GoogleCallbackSchema,
+	RegisterSchema,
+} from "src/schemas/auth"
 import type { TypedRequest, TypedRequestWithQuery } from "src/types/express"
 import type { Request, Response } from "express"
 import { sessionsTable, usersTable } from "src/db/schema/auth"
@@ -6,6 +10,8 @@ import { AppError, RedirectError } from "src/middleware/error-handler"
 import { cookieOptions, generateSessionId, sha256 } from "src/utils/sessions"
 import {
 	GITHUB_STATE_COOKIE_NAME,
+	GOOGLE_CODE_VERIFIER_COOKIE_NAME,
+	GOOGLE_STATE_COOKIE_NAME,
 	SALT_ROUNDS,
 	SESSION_COOKIE_NAME,
 } from "src/utils/constants"
@@ -16,11 +22,52 @@ import {
 	authenticate,
 	githubAuthorizationUrl,
 	githubUserize,
+	googleAuthorizationUrl,
+	googleUserize,
 } from "src/utils/oauth"
 
 export const userize = async () => {}
 
-export const github = async (req: Request, res: Response) => {
+export const google = async (_req: Request, res: Response) => {
+	const [url, state, codeVerifier] = googleAuthorizationUrl()
+
+	return res
+		.cookie(
+			GOOGLE_STATE_COOKIE_NAME,
+			state,
+			cookieOptions({ maxAge: 60000 })
+		)
+		.cookie(
+			GOOGLE_CODE_VERIFIER_COOKIE_NAME,
+			codeVerifier,
+			cookieOptions({ maxAge: 60000 })
+		)
+		.redirect(url.toString())
+}
+
+export const googleCallback = async (
+	req: TypedRequestWithQuery<GoogleCallbackSchema>,
+	res: Response
+) => {
+	const state = req.signedCookies[GOOGLE_STATE_COOKIE_NAME]
+	if (state !== req._query.state)
+		throw new RedirectError("auth.invalid_state")
+
+	const codeVerifier = req.signedCookies[GOOGLE_CODE_VERIFIER_COOKIE_NAME]
+	if (!codeVerifier) throw new RedirectError("auth.invalid_state")
+
+	const profile = await googleUserize(req._query.code, codeVerifier)
+	if (!profile) throw new RedirectError("auth.general_error")
+
+	const sessionId = await authenticate(req, profile)
+	const response = res.clearCookie(GOOGLE_STATE_COOKIE_NAME)
+
+	if (sessionId)
+		response.cookie(SESSION_COOKIE_NAME, sessionId, cookieOptions())
+	return response.redirect(process.env.FRONTEND_URL!)
+}
+
+export const github = async (_req: Request, res: Response) => {
 	const [url, state] = githubAuthorizationUrl()
 
 	return res

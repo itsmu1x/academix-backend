@@ -2,6 +2,8 @@ import validate from "src/middleware/validation"
 import {
 	github,
 	githubCallback,
+	google,
+	googleCallback,
 	login,
 	logout,
 	me,
@@ -10,6 +12,7 @@ import {
 import { Router } from "express"
 import {
 	githubCallbackSchema,
+	googleCallbackSchema,
 	loginSchema,
 	registerSchema,
 } from "src/schemas/auth"
@@ -27,6 +30,13 @@ router.get(
 	"/github/callback",
 	validate(githubCallbackSchema, "query"),
 	githubCallback
+)
+
+router.get("/google", google)
+router.get(
+	"/google/callback",
+	validate(googleCallbackSchema, "query"),
+	googleCallback
 )
 
 export default router
