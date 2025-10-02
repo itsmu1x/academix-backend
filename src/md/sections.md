@@ -14,6 +14,19 @@ Sections are used to organize course content into logical chapters or modules. E
 
 Retrieves all available sections.
 
+---
+
+## 📚 Get Course Sections
+
+**`GET /courses/:courseId/sections`**
+
+Retrieves all sections for a specific course.
+
+### Request
+
+**Parameters:**
+- `courseId` (number) - Course ID
+
 ### Response
 
 ```json
@@ -31,33 +44,14 @@ Retrieves all available sections.
 		"title": "Components and Props",
 		"createdAt": "2024-01-15T10:45:00.000Z",
 		"updatedAt": "2024-01-15T10:45:00.000Z"
-	},
-	{
-		"id": 3,
-		"courseId": 2,
-		"title": "Setting up Node.js Environment",
-		"createdAt": "2024-01-15T11:00:00.000Z",
-		"updatedAt": "2024-01-15T11:00:00.000Z"
 	}
 ]
-```
-
-**Schema:**
-
-```typescript
-{
-	id: number
-	courseId: number
-	title: string
-	createdAt: Date
-	updatedAt: Date
-}[]
 ```
 
 ### Example
 
 ```javascript
-const response = await axios.get("/sections")
+const response = await axios.get("/courses/1/sections")
 console.log(response.data)
 ```
 
@@ -65,7 +59,7 @@ console.log(response.data)
 
 ## ➕ Create Section
 
-**`POST /courses/:id/sections`**  
+**`POST /courses/:courseId/sections`**  
 🔒 **Requires Admin Authentication**
 
 Creates a new section for a specific course.
@@ -73,7 +67,7 @@ Creates a new section for a specific course.
 ### Request
 
 **Parameters:**
-- `id` (number) - Course ID
+- `courseId` (number) - Course ID
 
 **Body:**
 
