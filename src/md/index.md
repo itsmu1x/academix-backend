@@ -20,7 +20,7 @@
 | `POST`             | `/courses`        | Create new course     | admin     | [View Docs](/docs/courses)    |
 | **Sections**       |
 | `GET`              | `/sections`       | Get all sections      | no             | [View Docs](/docs/sections)   |
-| `POST`             | `/sections`       | Create new section    | admin     | [View Docs](/docs/sections)   |
+| `POST`             | `/courses/:id/sections` | Create new section    | admin     | [View Docs](/docs/sections)   |
 
 ## Authentication
 

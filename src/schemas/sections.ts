@@ -1,8 +1,7 @@
 import { z } from "zod"
 
 export const createSectionSchema = z.object({
-	courseId: z.number().positive(),
-	title: z.string(),
+	title: z.string().min(4),
 })
 
 export type CreateSectionSchema = z.infer<typeof createSectionSchema>

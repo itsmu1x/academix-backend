@@ -64,7 +64,8 @@ console.log(response.data)
 
 ## ➕ Create Course
 
-**`POST /courses`**
+**`POST /courses`**  
+🔒 **Requires Admin Authentication**
 
 Creates a new course.
 
@@ -123,6 +124,7 @@ console.log(response.data)
 
 ## 📝 Notes
 
+-   **Authentication**: Creating courses requires admin role
 -   **Title**: Maximum 32 characters
 -   **Slug**: Must be unique across all courses, automatically trimmed
 -   **Category ID**: Must reference an existing category

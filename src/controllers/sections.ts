@@ -11,12 +11,12 @@ export const getSections = async (_req: Request, res: Response) => {
 }
 
 export const createSection = async (
-	req: TypedRequest<CreateSectionSchema>,
+	req: TypedRequest<CreateSectionSchema, { courseId: number }>,
 	res: Response
 ) => {
 	const [section] = await db
 		.insert(sectionsTable)
-		.values(req.body)
+		.values({ ...req.body, ...req.params })
 		.returning()
 	if (!section) throw new AppError("sections.creation_failed", 500)
 	res.json(section)

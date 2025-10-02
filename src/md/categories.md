@@ -78,7 +78,8 @@ console.log(response.data)
 
 ## ➕ Create Category
 
-**`POST /categories`**
+**`POST /categories`**  
+🔒 **Requires Admin Authentication**
 
 Creates a new category with translations.
 
@@ -147,7 +148,8 @@ console.log(response.data)
 
 ## 🗑️ Delete Category
 
-**`DELETE /categories/:id`**
+**`DELETE /categories/:id`**  
+🔒 **Requires Admin Authentication**
 
 Deletes a category by its ID.
 
@@ -176,6 +178,7 @@ console.log(response.data)
 
 ## 📝 Notes
 
+-   **Authentication**: Creating and deleting categories requires admin role
 -   **Slug**: Must be unique across all categories
 -   **Translations**: Each category can have multiple language translations
 -   **Cascade Delete**: Deleting a category will also delete all associated courses

@@ -65,17 +65,20 @@ console.log(response.data)
 
 ## ➕ Create Section
 
-**`POST /sections`**
+**`POST /courses/:id/sections`**  
+🔒 **Requires Admin Authentication**
 
-Creates a new section for a course.
+Creates a new section for a specific course.
 
 ### Request
+
+**Parameters:**
+- `id` (number) - Course ID
 
 **Body:**
 
 ```json
 {
-	"courseId": 1,
 	"title": "State Management with Hooks"
 }
 ```
@@ -84,7 +87,6 @@ Creates a new section for a course.
 
 ```typescript
 {
-	courseId: number
 	title: string
 }
 ```
@@ -104,8 +106,7 @@ Creates a new section for a course.
 ### Example
 
 ```javascript
-const response = await axios.post("/sections", {
-	courseId: 1,
+const response = await axios.post("/courses/1/sections", {
 	title: "State Management with Hooks",
 })
 
@@ -116,7 +117,8 @@ console.log(response.data)
 
 ## 📝 Notes
 
+-   **Authentication**: Creating sections requires admin role
 -   **Title**: Maximum 32 characters
--   **Course ID**: Must reference an existing course
+-   **Course ID**: Provided in the URL path parameter
 -   **Cascade Delete**: Deleting a course will also delete all associated sections
 -   **Content Organization**: Sections are typically used to organize course content into chapters or modules
