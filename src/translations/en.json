@@ -8,7 +8,11 @@
 		"logged_in_successfully": "You have been logged in successfully",
 		"invalid_credentials": "Invalid credentials",
 		"logged_out_successfully": "You have been logged out successfully",
-		"unauthorized": "Unauthorized"
+		"unauthorized": "Unauthorized",
+		"invalid_state": "Invalid state",
+		"has_oauth_account": "You already have an account with this provider",
+		"github_no_email": "GitHub account has no email",
+		"general_error": "Something went wrong, please try again later."
 	},
 	"courses": {
 		"creation_failed": "Failed to create course"

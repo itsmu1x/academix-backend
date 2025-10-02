@@ -6,5 +6,6 @@ declare module "express-serve-static-core" {
 		session: SessionOutputSchema
 		language: string
 		t: (key: string) => string
+		_query: any
 	}
 }

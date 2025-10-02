@@ -8,6 +8,14 @@ export class AppError extends Error {
 	}
 }
 
+export class RedirectError extends AppError {
+	path: string
+	constructor(message: string, path?: string) {
+		super(message)
+		this.path = path || "/"
+	}
+}
+
 export const errorHandler = (
 	err: AppError,
 	req: Request,
@@ -16,7 +24,13 @@ export const errorHandler = (
 ): void => {
 	const statusCode = err.statusCode || 500
 	const message = err instanceof AppError ? req.t(err.message) : req.t("sww")
-	console.error(err)
+
+	if (err instanceof RedirectError)
+		return res.redirect(
+			`${process.env.FRONTEND_URL}${err.path}?error=${encodeURIComponent(
+				err.message
+			)}`
+		)
 
 	res.status(statusCode).json({
 		message,

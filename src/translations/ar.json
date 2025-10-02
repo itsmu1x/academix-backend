@@ -8,7 +8,11 @@
 		"logged_in_successfully": "تم تسجيلك بنجاح",
 		"invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صالحة",
 		"logged_out_successfully": "تم تسجيل خروجك بنجاح",
-		"unauthorized": "غير مصرح لك"
+		"unauthorized": "غير مصرح لك",
+		"invalid_state": "حالة غير صالحة",
+		"has_oauth_account": "لديك حساب بهذا الموفر",
+		"github_no_email": "حساب GitHub ليس لديه بريد إلكتروني",
+		"general_error": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقاً."
 	},
 	"courses": {
 		"creation_failed": "فشل إنشاء الدورة"

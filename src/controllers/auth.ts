@@ -1,13 +1,55 @@
-import type { RegisterSchema } from "src/schemas/auth"
-import type { TypedRequest } from "src/types/express"
+import type { GithubCallbackSchema, RegisterSchema } from "src/schemas/auth"
+import type { TypedRequest, TypedRequestWithQuery } from "src/types/express"
 import type { Request, Response } from "express"
 import { sessionsTable, usersTable } from "src/db/schema/auth"
-import { AppError } from "src/middleware/error-handler"
+import { AppError, RedirectError } from "src/middleware/error-handler"
 import { cookieOptions, generateSessionId, sha256 } from "src/utils/sessions"
-import { SALT_ROUNDS, SESSION_COOKIE_NAME } from "src/utils/constants"
+import {
+	GITHUB_STATE_COOKIE_NAME,
+	SALT_ROUNDS,
+	SESSION_COOKIE_NAME,
+} from "src/utils/constants"
 import bcryptjs from "bcryptjs"
 import db from "src/db"
 import { eq } from "drizzle-orm"
+import {
+	authenticate,
+	githubAuthorizationUrl,
+	githubUserize,
+} from "src/utils/oauth"
+
+export const userize = async () => {}
+
+export const github = async (req: Request, res: Response) => {
+	const [url, state] = githubAuthorizationUrl()
+
+	return res
+		.cookie(
+			GITHUB_STATE_COOKIE_NAME,
+			state,
+			cookieOptions({ maxAge: 60000 })
+		)
+		.redirect(url.toString())
+}
+
+export const githubCallback = async (
+	req: TypedRequestWithQuery<GithubCallbackSchema>,
+	res: Response
+) => {
+	const state = req.signedCookies[GITHUB_STATE_COOKIE_NAME]
+	if (state !== req._query.state)
+		throw new RedirectError("auth.invalid_state")
+
+	const profile = await githubUserize(req._query.code)
+	if (!profile) throw new RedirectError("auth.general_error")
+
+	const sessionId = await authenticate(req, profile)
+	const response = res.clearCookie(GITHUB_STATE_COOKIE_NAME)
+
+	if (sessionId)
+		response.cookie(SESSION_COOKIE_NAME, sessionId, cookieOptions())
+	return response.redirect(process.env.FRONTEND_URL!)
+}
 
 export const register = async (
 	req: TypedRequest<RegisterSchema>,
@@ -65,7 +107,8 @@ export const login = async (req: Request, res: Response) => {
 			},
 		})
 
-		if (!user) throw new AppError("auth.invalid_credentials", 400)
+		if (!user || !user.password)
+			throw new AppError("auth.invalid_credentials", 400)
 		if (!(await bcryptjs.compare(req.body.password, user.password)))
 			throw new AppError("auth.invalid_credentials", 400)
 

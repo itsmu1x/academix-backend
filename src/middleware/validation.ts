@@ -14,7 +14,7 @@ export default function validate(
 	) => {
 		const { error, data } = schema.safeParse(req[type])
 		if (error) throw new AppError("validation_error", 400)
-		req[type] = data
+		req[type === "query" ? `_${type}` : type] = data
 		next()
 	}
 }
