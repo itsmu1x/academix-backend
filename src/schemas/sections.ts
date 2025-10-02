@@ -5,7 +5,7 @@ export const createSectionSchema = z.object({
 })
 
 export const getCourseSectionsSchema = z.object({
-	courseId: z.number().positive(),
+	courseId: z.coerce.number().positive(),
 })
 
 export type CreateSectionSchema = z.infer<typeof createSectionSchema>
