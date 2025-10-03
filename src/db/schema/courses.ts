@@ -152,3 +152,11 @@ export const categoriesTranslationsRelations = relations(
 export const categoryRelations = relations(categoriesTable, ({ many }) => ({
 	translations: many(categoriesTranslationsTable),
 }))
+
+export const courseRelations = relations(coursesTable, ({ one, many }) => ({
+	category: one(categoriesTable, {
+		fields: [coursesTable.categoryId],
+		references: [categoriesTable.id],
+	}),
+	sections: many(sectionsTable),
+}))

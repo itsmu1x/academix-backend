@@ -6,8 +6,27 @@ import { AppError } from "src/middleware/error-handler"
 import db from "src/db"
 
 export const getCourses = async (_req: Request, res: Response) => {
-	const courses = await db.query.coursesTable.findMany()
-	res.json(courses)
+	const courses = await db.query.coursesTable.findMany({
+		with: {
+			category: {
+				with: {
+					translations: true,
+				},
+			},
+		},
+	})
+
+	res.json(
+		courses.map((course) => ({
+			...course,
+			category: {
+				...course.category,
+				translations: Object.fromEntries(
+					course.category.translations.map((t) => [t.locale, t])
+				),
+			},
+		}))
+	)
 }
 
 export const createCourse = async (
