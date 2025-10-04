@@ -62,6 +62,83 @@ console.log(response.data)
 
 ---
 
+## 🔍 Get Course by ID
+
+**`GET /courses/:id`**
+
+Retrieves a specific course by its ID.
+
+### Request
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `id` | number | The unique identifier of the course to retrieve |
+
+**Schema:**
+
+```typescript
+{
+	id: number
+}
+```
+
+### Response
+
+**Success (200):**
+
+```json
+{
+	"id": 1,
+	"title": "Complete React Course",
+	"description": "Learn React from basics to advanced concepts",
+	"slug": "complete-react-course",
+	"categoryId": 1,
+	"createdAt": "2024-01-15T10:30:00.000Z",
+	"updatedAt": "2024-01-15T10:30:00.000Z",
+	"category": {
+		"id": 1,
+		"name": "Web Development",
+		"slug": "web-development",
+		"createdAt": "2024-01-15T09:00:00.000Z",
+		"updatedAt": "2024-01-15T09:00:00.000Z",
+		"translations": {
+			"en": {
+				"id": 1,
+				"categoryId": 1,
+				"locale": "en",
+				"name": "Web Development",
+				"description": "Learn modern web development technologies"
+			},
+			"ar": {
+				"id": 2,
+				"categoryId": 1,
+				"locale": "ar",
+				"name": "تطوير الويب",
+				"description": "تعلم تقنيات تطوير الويب الحديثة"
+			}
+		}
+	}
+}
+```
+
+**Not Found (404):**
+
+```json
+null
+```
+
+### Example
+
+```javascript
+const response = await axios.get("/courses/1")
+console.log(response.data)
+// Output: Course object with category and translations
+```
+
+---
+
 ## ➕ Create Course
 
 **`POST /courses`**  

@@ -17,6 +17,7 @@
 | `DELETE`           | `/categories/:id` | Delete category by ID | admin     | [View Docs](/docs/categories) |
 | **Courses**        |
 | `GET`              | `/courses`        | Get all courses       | no             | [View Docs](/docs/courses)    |
+| `GET`              | `/courses/:id`    | Get course by ID      | no             | [View Docs](/docs/courses)    |
 | `POST`             | `/courses`        | Create new course     | admin     | [View Docs](/docs/courses)    |
 | `DELETE`           | `/courses/:id`    | Delete course by ID   | admin     | [View Docs](/docs/courses)    |
 | **Sections**       |

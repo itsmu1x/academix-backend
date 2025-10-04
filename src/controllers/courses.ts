@@ -1,6 +1,6 @@
 import type {
+	CourseParamsSchema,
 	CreateCourseSchema,
-	DeleteCourseSchema,
 } from "src/schemas/courses"
 import type { Request, Response } from "express"
 import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
@@ -43,9 +43,36 @@ export const createCourse = async (
 }
 
 export const deleteCourse = async (
-	req: TypedRequestWithParams<DeleteCourseSchema>,
+	req: TypedRequestWithParams<CourseParamsSchema>,
 	res: Response
 ) => {
 	await db.delete(coursesTable).where(eq(coursesTable.id, req.params.id))
 	res.json({ message: req.t("courses.deleted_successfully") })
+}
+
+export const getCourse = async (
+	req: TypedRequestWithParams<CourseParamsSchema>,
+	res: Response
+) => {
+	const course = await db.query.coursesTable.findFirst({
+		where: eq(coursesTable.id, req.params.id),
+		with: {
+			category: {
+				with: {
+					translations: true,
+				},
+			},
+		},
+	})
+
+	if (!course) return res.status(404).json(null)
+	return res.json({
+		...course,
+		category: {
+			...course.category,
+			translations: Object.fromEntries(
+				course.category.translations.map((t) => [t.locale, t])
+			),
+		},
+	})
 }

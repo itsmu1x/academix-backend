@@ -7,9 +7,9 @@ export const createCourseSchema = z.object({
 	categoryId: z.number().positive(),
 })
 
-export const deleteCourseSchema = z.object({
+export const courseParamsSchema = z.object({
 	id: z.coerce.number().positive(),
 })
 
 export type CreateCourseSchema = z.infer<typeof createCourseSchema>
-export type DeleteCourseSchema = z.infer<typeof deleteCourseSchema>
+export type CourseParamsSchema = z.infer<typeof courseParamsSchema>

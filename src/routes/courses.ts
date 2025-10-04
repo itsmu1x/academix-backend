@@ -1,9 +1,14 @@
-import { createCourse, deleteCourse, getCourses } from "src/controllers/courses"
+import {
+	createCourse,
+	deleteCourse,
+	getCourse,
+	getCourses,
+} from "src/controllers/courses"
 import {
 	createSectionSchema,
 	getCourseSectionsSchema,
 } from "src/schemas/sections"
-import { createCourseSchema, deleteCourseSchema } from "src/schemas/courses"
+import { courseParamsSchema, createCourseSchema } from "src/schemas/courses"
 import { createSection, getCourseSections } from "src/controllers/sections"
 import { Router } from "express"
 import validate from "src/middleware/validation"
@@ -12,6 +17,7 @@ const router = Router()
 
 router.get("/", getCourses)
 router.post("/", validate(createCourseSchema), createCourse)
+router.get("/:id", validate(courseParamsSchema, "params"), getCourse)
 router.get(
 	"/:courseId/sections",
 	validate(getCourseSectionsSchema, "params"),
@@ -23,6 +29,6 @@ router.post(
 	validate(createSectionSchema),
 	createSection
 )
-router.delete("/:id", validate(deleteCourseSchema, "params"), deleteCourse)
+router.delete("/:id", validate(courseParamsSchema, "params"), deleteCourse)
 
 export default router
