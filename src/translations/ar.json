@@ -15,7 +15,8 @@
 		"general_error": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقاً."
 	},
 	"courses": {
-		"creation_failed": "فشل إنشاء الدورة"
+		"creation_failed": "فشل إنشاء الدورة",
+		"deleted_successfully": "تم حذف الدورة بنجاح"
 	},
 	"sections": {
 		"creation_failed": "فشل إنشاء القسم",

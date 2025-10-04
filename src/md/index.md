@@ -18,6 +18,7 @@
 | **Courses**        |
 | `GET`              | `/courses`        | Get all courses       | no             | [View Docs](/docs/courses)    |
 | `POST`             | `/courses`        | Create new course     | admin     | [View Docs](/docs/courses)    |
+| `DELETE`           | `/courses/:id`    | Delete course by ID   | admin     | [View Docs](/docs/courses)    |
 | **Sections**       |
 | `GET`              | `/sections`       | Get all sections      | no             | [View Docs](/docs/sections)   |
 | `GET`              | `/courses/:courseId/sections` | Get course sections | no             | [View Docs](/docs/sections)   |

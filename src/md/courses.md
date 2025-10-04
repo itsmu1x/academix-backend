@@ -122,6 +122,47 @@ console.log(response.data)
 
 ---
 
+## 🗑️ Delete Course
+
+**`DELETE /courses/:id`**  
+🔒 **Requires Admin Authentication**
+
+Deletes a course by its ID.
+
+### Request
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `id` | number | The unique identifier of the course to delete |
+
+**Schema:**
+
+```typescript
+{
+	id: number
+}
+```
+
+### Response
+
+```json
+{
+	"message": "Course deleted successfully"
+}
+```
+
+### Example
+
+```javascript
+const response = await axios.delete("/courses/3")
+console.log(response.data)
+// Output: { "message": "Course deleted successfully" }
+```
+
+---
+
 ## 📝 Notes
 
 -   **Authentication**: Creating courses requires admin role

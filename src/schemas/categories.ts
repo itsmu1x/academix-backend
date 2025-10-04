@@ -11,7 +11,7 @@ export const createCategorySchema = z.object({
 })
 
 export const deleteCategorySchema = z.object({
-	id: z.number().positive(),
+	id: z.coerce.number().positive(),
 })
 
 export type CreateCategorySchema = z.infer<typeof createCategorySchema>

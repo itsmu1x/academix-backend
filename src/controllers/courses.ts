@@ -1,9 +1,13 @@
-import type { CreateCourseSchema } from "src/schemas/courses"
+import type {
+	CreateCourseSchema,
+	DeleteCourseSchema,
+} from "src/schemas/courses"
 import type { Request, Response } from "express"
-import type { TypedRequest } from "src/types/express"
+import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
 import { coursesTable } from "src/db/schema/courses"
 import { AppError } from "src/middleware/error-handler"
 import db from "src/db"
+import { eq } from "drizzle-orm"
 
 export const getCourses = async (_req: Request, res: Response) => {
 	const courses = await db.query.coursesTable.findMany({
@@ -36,4 +40,12 @@ export const createCourse = async (
 	const [course] = await db.insert(coursesTable).values(req.body).returning()
 	if (!course) throw new AppError("courses.creation_failed", 500)
 	res.json(course)
+}
+
+export const deleteCourse = async (
+	req: TypedRequestWithParams<DeleteCourseSchema>,
+	res: Response
+) => {
+	await db.delete(coursesTable).where(eq(coursesTable.id, req.params.id))
+	res.json({ message: req.t("courses.deleted_successfully") })
 }

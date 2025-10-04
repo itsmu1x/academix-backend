@@ -15,7 +15,8 @@
 		"general_error": "Something went wrong, please try again later."
 	},
 	"courses": {
-		"creation_failed": "Failed to create course"
+		"creation_failed": "Failed to create course",
+		"deleted_successfully": "Course deleted successfully"
 	},
 	"sections": {
 		"creation_failed": "Failed to create section",
