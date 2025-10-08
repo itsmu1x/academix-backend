@@ -1,5 +1,5 @@
 import type { Response, NextFunction } from "express"
-import type { TypedRequest, ValidationType } from "src/types/express"
+import type { TypedRequest, ValidationType } from "../types/express"
 import type { z, ZodObject } from "zod"
 import { AppError } from "./error-handler"
 

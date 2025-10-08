@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from "express"
-import { SESSION_COOKIE_NAME } from "src/utils/constants"
+import { SESSION_COOKIE_NAME } from "../utils/constants"
 import { AppError } from "./error-handler"
-import { sha256 } from "src/utils/sessions"
-import db from "src/db"
-import { sessionOutputSchema } from "src/schemas/auth"
+import { sha256 } from "../utils/sessions"
+import db from "../db"
+import { sessionOutputSchema } from "../schemas/auth"
 
 export async function attachSession(
 	req: Request,

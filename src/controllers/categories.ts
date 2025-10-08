@@ -2,13 +2,13 @@ import type { Request, Response } from "express"
 import type {
 	CreateCategorySchema,
 	DeleteCategorySchema,
-} from "src/schemas/categories"
-import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
+} from "../schemas/categories"
+import type { TypedRequest, TypedRequestWithParams } from "../types/express"
 import {
 	categoriesTable,
 	categoriesTranslationsTable,
-} from "src/db/schema/courses"
-import db from "src/db"
+} from "../db/schema/courses"
+import db from "../db"
 import { eq } from "drizzle-orm"
 
 export const getCategories = async (_req: Request, res: Response) => {

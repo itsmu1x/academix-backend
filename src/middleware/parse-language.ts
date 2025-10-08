@@ -3,7 +3,7 @@ import {
 	DEFAULT_LANGUAGE,
 	languageSchema,
 	translate,
-} from "src/utils/translation"
+} from "../utils/translation"
 
 export default function parseLanguage(
 	req: Request,

@@ -1,12 +1,9 @@
-import type {
-	CourseParamsSchema,
-	CreateCourseSchema,
-} from "src/schemas/courses"
+import type { CourseParamsSchema, CreateCourseSchema } from "../schemas/courses"
 import type { Request, Response } from "express"
-import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
-import { coursesTable } from "src/db/schema/courses"
-import { AppError } from "src/middleware/error-handler"
-import db from "src/db"
+import type { TypedRequest, TypedRequestWithParams } from "../types/express"
+import { coursesTable } from "../db/schema/courses"
+import { AppError } from "../middleware/error-handler"
+import db from "../db"
 import { eq } from "drizzle-orm"
 
 export const getCourses = async (_req: Request, res: Response) => {

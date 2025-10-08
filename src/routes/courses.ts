@@ -3,15 +3,15 @@ import {
 	deleteCourse,
 	getCourse,
 	getCourses,
-} from "src/controllers/courses"
+} from "../controllers/courses"
 import {
 	createSectionSchema,
 	getCourseSectionsSchema,
-} from "src/schemas/sections"
-import { courseParamsSchema, createCourseSchema } from "src/schemas/courses"
-import { createSection, getCourseSections } from "src/controllers/sections"
+} from "../schemas/sections"
+import { courseParamsSchema, createCourseSchema } from "../schemas/courses"
+import { createSection, getCourseSections } from "../controllers/sections"
 import { Router } from "express"
-import validate from "src/middleware/validation"
+import validate from "../middleware/validation"
 
 const router = Router()
 

@@ -2,13 +2,13 @@ import {
 	deleteSection,
 	getSections,
 	updateSection,
-} from "src/controllers/sections"
+} from "../controllers/sections"
 import { Router } from "express"
-import validate from "src/middleware/validation"
+import validate from "../middleware/validation"
 import {
 	updateSectionParamsSchema,
 	updateSectionSchema,
-} from "src/schemas/sections"
+} from "../schemas/sections"
 
 const router = Router()
 

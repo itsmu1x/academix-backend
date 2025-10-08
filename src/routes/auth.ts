@@ -1,8 +1,8 @@
-import validate from "src/middleware/validation"
+import validate from "../middleware/validation"
 import { login, logout, me, register } from "../controllers/auth"
 import { Router } from "express"
-import { loginSchema, registerSchema } from "src/schemas/auth"
-import { authenticated, unauthenticated } from "src/middleware/auth"
+import { loginSchema, registerSchema } from "../schemas/auth"
+import { authenticated, unauthenticated } from "../middleware/auth"
 
 const router = Router()
 

@@ -1,4 +1,4 @@
-import type { SessionOutputSchema } from "src/schemas/auth"
+import type { SessionOutputSchema } from "../schemas/auth"
 import "express"
 
 declare module "express-serve-static-core" {

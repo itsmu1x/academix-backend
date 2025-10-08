@@ -2,13 +2,13 @@ import {
 	createCategory,
 	deleteCategory,
 	getCategories,
-} from "src/controllers/categories"
+} from "../controllers/categories"
 import { Router } from "express"
-import validate from "src/middleware/validation"
+import validate from "../middleware/validation"
 import {
 	createCategorySchema,
 	deleteCategorySchema,
-} from "src/schemas/categories"
+} from "../schemas/categories"
 
 const router = Router()
 

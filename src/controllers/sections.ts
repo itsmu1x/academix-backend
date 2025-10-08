@@ -1,9 +1,9 @@
-import type { CreateSectionSchema } from "src/schemas/sections"
+import type { CreateSectionSchema } from "../schemas/sections"
 import type { Request, Response } from "express"
-import type { TypedRequest, TypedRequestWithParams } from "src/types/express"
-import { sectionsTable } from "src/db/schema/courses"
-import { AppError } from "src/middleware/error-handler"
-import db from "src/db"
+import type { TypedRequest, TypedRequestWithParams } from "../types/express"
+import { sectionsTable } from "../db/schema/courses"
+import { AppError } from "../middleware/error-handler"
+import db from "../db"
 import { eq } from "drizzle-orm"
 
 export const getSections = async (_req: Request, res: Response) => {
