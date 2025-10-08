@@ -1,135 +1,13 @@
-import type {
-	GithubCallbackSchema,
-	GoogleCallbackSchema,
-	LinkedinCallbackSchema,
-	RegisterSchema,
-} from "src/schemas/auth"
-import type { TypedRequest, TypedRequestWithQuery } from "src/types/express"
+import type { RegisterSchema } from "src/schemas/auth"
+import type { TypedRequest } from "src/types/express"
 import type { Request, Response } from "express"
 import { sessionsTable, usersTable } from "src/db/schema/auth"
-import { AppError, RedirectError } from "src/middleware/error-handler"
+import { AppError } from "src/middleware/error-handler"
 import { cookieOptions, generateSessionId, sha256 } from "src/utils/sessions"
-import {
-	GITHUB_STATE_COOKIE_NAME,
-	GOOGLE_CODE_VERIFIER_COOKIE_NAME,
-	GOOGLE_STATE_COOKIE_NAME,
-	LINKEDIN_STATE_COOKIE_NAME,
-	SALT_ROUNDS,
-	SESSION_COOKIE_NAME,
-} from "src/utils/constants"
+import { SALT_ROUNDS, SESSION_COOKIE_NAME } from "src/utils/constants"
 import bcryptjs from "bcryptjs"
 import db from "src/db"
 import { eq } from "drizzle-orm"
-import {
-	authenticate,
-	githubAuthorizationUrl,
-	githubUserize,
-	googleAuthorizationUrl,
-	googleUserize,
-	linkedinAuthorizationUrl,
-	linkedinUserize,
-} from "src/utils/oauth"
-
-export const linkedin = async (_req: Request, res: Response) => {
-	const [url, state] = linkedinAuthorizationUrl()
-
-	return res
-		.cookie(
-			LINKEDIN_STATE_COOKIE_NAME,
-			state,
-			cookieOptions({ maxAge: 60000 })
-		)
-		.redirect(url.toString())
-}
-
-export const linkedinCallback = async (
-	req: TypedRequestWithQuery<LinkedinCallbackSchema>,
-	res: Response
-) => {
-	const state = req.signedCookies[LINKEDIN_STATE_COOKIE_NAME]
-	if (state !== req._query.state)
-		throw new RedirectError("auth.invalid_state")
-
-	const profile = await linkedinUserize(req._query.code)
-	if (!profile) throw new RedirectError("auth.general_error")
-
-	const sessionId = await authenticate(req, profile)
-	const response = res.clearCookie(LINKEDIN_STATE_COOKIE_NAME)
-
-	if (sessionId)
-		response.cookie(SESSION_COOKIE_NAME, sessionId, cookieOptions())
-	return response.redirect(process.env.FRONTEND_URL!)
-}
-
-export const google = async (_req: Request, res: Response) => {
-	const [url, state, codeVerifier] = googleAuthorizationUrl()
-
-	return res
-		.cookie(
-			GOOGLE_STATE_COOKIE_NAME,
-			state,
-			cookieOptions({ maxAge: 60000 })
-		)
-		.cookie(
-			GOOGLE_CODE_VERIFIER_COOKIE_NAME,
-			codeVerifier,
-			cookieOptions({ maxAge: 60000 })
-		)
-		.redirect(url.toString())
-}
-
-export const googleCallback = async (
-	req: TypedRequestWithQuery<GoogleCallbackSchema>,
-	res: Response
-) => {
-	const state = req.signedCookies[GOOGLE_STATE_COOKIE_NAME]
-	if (state !== req._query.state)
-		throw new RedirectError("auth.invalid_state")
-
-	const codeVerifier = req.signedCookies[GOOGLE_CODE_VERIFIER_COOKIE_NAME]
-	if (!codeVerifier) throw new RedirectError("auth.invalid_state")
-
-	const profile = await googleUserize(req._query.code, codeVerifier)
-	if (!profile) throw new RedirectError("auth.general_error")
-
-	const sessionId = await authenticate(req, profile)
-	const response = res.clearCookie(GOOGLE_STATE_COOKIE_NAME)
-
-	if (sessionId)
-		response.cookie(SESSION_COOKIE_NAME, sessionId, cookieOptions())
-	return response.redirect(process.env.FRONTEND_URL!)
-}
-
-export const github = async (_req: Request, res: Response) => {
-	const [url, state] = githubAuthorizationUrl()
-
-	return res
-		.cookie(
-			GITHUB_STATE_COOKIE_NAME,
-			state,
-			cookieOptions({ maxAge: 60000 })
-		)
-		.redirect(url.toString())
-}
-
-export const githubCallback = async (
-	req: TypedRequestWithQuery<GithubCallbackSchema>,
-	res: Response
-) => {
-	const state = req.signedCookies[GITHUB_STATE_COOKIE_NAME]
-	if (state !== req._query.state)
-		throw new RedirectError("auth.invalid_state")
-
-	const profile = await githubUserize(req._query.code)
-	if (!profile) throw new RedirectError("auth.general_error")
-
-	const sessionId = await authenticate(req, profile)
-	const response = res.clearCookie(GITHUB_STATE_COOKIE_NAME)
-
-	if (sessionId)
-		response.cookie(SESSION_COOKIE_NAME, sessionId, cookieOptions())
-	return response.redirect(process.env.FRONTEND_URL!)
-}
 
 export const register = async (
 	req: TypedRequest<RegisterSchema>,

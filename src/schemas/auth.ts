@@ -33,24 +33,6 @@ export const loginSchema = z.object({
 	password: z.string().min(6).max(64),
 })
 
-export const githubCallbackSchema = z.object({
-	code: z.string().min(1),
-	state: z.string(),
-})
-
-export const googleCallbackSchema = z.object({
-	code: z.string().min(1),
-	state: z.string(),
-})
-
-export const linkedinCallbackSchema = z.object({
-	code: z.string().min(1),
-	state: z.string(),
-})
-
 export type LoginSchema = z.infer<typeof loginSchema>
 export type RegisterSchema = z.infer<typeof registerSchema>
 export type SessionOutputSchema = z.infer<typeof sessionOutputSchema>
-export type GithubCallbackSchema = z.infer<typeof githubCallbackSchema>
-export type GoogleCallbackSchema = z.infer<typeof googleCallbackSchema>
-export type LinkedinCallbackSchema = z.infer<typeof linkedinCallbackSchema>
