@@ -7,7 +7,6 @@ import {
 	serial,
 	text,
 	timestamp,
-	uuid,
 	varchar,
 } from "drizzle-orm/pg-core"
 
@@ -16,6 +15,7 @@ export const questionTypes = pgEnum("question_types", [
 	"multiple_choice",
 	"true_false",
 ])
+export const sectionTypes = pgEnum("section_types", ["draft", "published"])
 
 export const categoriesTable = pgTable("categories", {
 	id: serial().primaryKey(),
@@ -67,6 +67,7 @@ export const sectionsTable = pgTable("courses_sections", {
 			onDelete: "cascade",
 		})
 		.notNull(),
+	type: sectionTypes().notNull(),
 	title: varchar({ length: 32 }).notNull(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at")
