@@ -161,3 +161,18 @@ export const courseRelations = relations(coursesTable, ({ one, many }) => ({
 	}),
 	sections: many(sectionsTable),
 }))
+
+export const contentRelations = relations(contentsTable, ({ one, many }) => ({
+	section: one(sectionsTable, {
+		fields: [contentsTable.sectionId],
+		references: [sectionsTable.id],
+	}),
+	video: one(videosTable, {
+		fields: [contentsTable.id],
+		references: [videosTable.contentId],
+	}),
+	quiz: one(quizzesTable, {
+		fields: [contentsTable.id],
+		references: [quizzesTable.contentId],
+	}),
+}))

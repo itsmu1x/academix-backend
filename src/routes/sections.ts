@@ -1,5 +1,6 @@
 import {
 	deleteSection,
+	getContents,
 	getSections,
 	postVideo,
 	updateSection,
@@ -26,8 +27,13 @@ router.put(
 	validate(updateSectionSchema),
 	updateSection
 )
+router.get(
+	"/:id/contents",
+	validate(updateSectionParamsSchema, "params"),
+	getContents
+)
 router.post(
-	"/:id/video",
+	"/:id/videos",
 	validate(updateSectionParamsSchema, "params"),
 	validate(postVideoSchema),
 	postVideo

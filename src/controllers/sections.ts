@@ -90,3 +90,25 @@ export const postVideo = async (
 		})
 	})
 }
+
+export const getContents = async (
+	req: TypedRequestWithParams<{ id: number }>,
+	res: Response
+) => {
+	const contents = await db.query.contentsTable.findMany({
+		where(fields, { eq }) {
+			return eq(fields.sectionId, req.params.id)
+		},
+		with: {
+			video: {
+				columns: {
+					duration: true,
+					url: true,
+				},
+			},
+			// TODO: add quiz
+		},
+	})
+
+	res.json(contents)
+}
