@@ -21,6 +21,8 @@
 	"sections": {
 		"creation_failed": "فشل إنشاء القسم",
 		"update_failed": "فشل تحديث القسم",
-		"invalid_youtube_url": "رابط YouTube غير صالح"
+		"invalid_youtube_url": "رابط YouTube غير صالح",
+		"video_posted_successfully": "تم إضافة الفيديو بنجاح",
+		"video_post_failed": "فشل إضافة الفيديو"
 	}
 }

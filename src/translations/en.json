@@ -21,6 +21,8 @@
 	"sections": {
 		"creation_failed": "Failed to create section",
 		"update_failed": "Failed to update section",
-		"invalid_youtube_url": "Invalid YouTube URL"
+		"invalid_youtube_url": "Invalid YouTube URL",
+		"video_posted_successfully": "Video posted successfully",
+		"video_post_failed": "Failed to post video"
 	}
 }

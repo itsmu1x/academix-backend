@@ -85,6 +85,8 @@ export const postVideo = async (
 
 		if (!video) throw new AppError("sections.video_post_failed", 500)
 
-		return res.json(video)
+		return res.json({
+			message: req.t("sections.video_posted_successfully"),
+		})
 	})
 }
