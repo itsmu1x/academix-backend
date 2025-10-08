@@ -20,6 +20,7 @@
 	},
 	"sections": {
 		"creation_failed": "فشل إنشاء القسم",
-		"update_failed": "فشل تحديث القسم"
+		"update_failed": "فشل تحديث القسم",
+		"invalid_youtube_url": "رابط YouTube غير صالح"
 	}
 }

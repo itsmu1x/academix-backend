@@ -20,6 +20,7 @@
 	},
 	"sections": {
 		"creation_failed": "Failed to create section",
-		"update_failed": "Failed to update section"
+		"update_failed": "Failed to update section",
+		"invalid_youtube_url": "Invalid YouTube URL"
 	}
 }
