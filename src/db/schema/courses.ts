@@ -67,7 +67,7 @@ export const sectionsTable = pgTable("courses_sections", {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	type: sectionTypes().notNull(),
+	type: sectionTypes().notNull().default("draft"),
 	title: varchar({ length: 32 }).notNull(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at")
